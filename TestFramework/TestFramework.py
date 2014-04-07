@@ -58,3 +58,18 @@ class Disk:
         self.n_blocks = n_blocks
         self.block_size = block_size
         self.page_size = page_size
+        self.blocks = []
+
+        self.last_written_block = None
+
+        # Initialize the blocks for this drive configuration
+        for i in range(n_blocks):
+            self.blocks.append(Block(block_size, page_size))
+
+            # And now we have a hard drive!
+
+    def put(self, data):
+        """
+        Puts data into the next available slot on the hard disk
+        """
+
