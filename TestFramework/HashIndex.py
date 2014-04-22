@@ -39,8 +39,10 @@ class HashIndex(Index):
 
         bucket_number = self.hash_function(key)
         bucket = self.buckets[bucket_number]
-        bucket.add
+        bucket.put(key, datum)
 
 
     def hash_function(self, key):
-        pass
+        # Super simple hash function
+        # TODO Make this function better
+        return key % self.nbuckets
