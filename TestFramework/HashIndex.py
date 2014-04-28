@@ -46,3 +46,4 @@ class HashIndex(Index):
         # Super simple hash function
         # TODO Make this function better
         return key % self.nbuckets
+
