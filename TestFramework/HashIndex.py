@@ -25,7 +25,7 @@ class Bucket:
 
 class HashIndex(Index):
     def __init__(self, disk, nbuckets):
-        self.__init__(disk)
+        self.disk = disk
         self.nbuckets = nbuckets
         self.buckets = {}
         for i in range(self.nbuckets):
