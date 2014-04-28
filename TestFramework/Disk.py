@@ -21,6 +21,15 @@ class Page:
         self.reads += 1
         return self.data
 
+    def get_status(self):
+        return "Page Reads: {0}, Page Writes: {1}".format(self.reads, self.writes)
+
+    def isempty(self):
+        if len(self.data) == 0:
+            return True
+        else:
+            return False
+
 
 class Block:
     def __init__(self, size, page_size):
@@ -34,18 +43,23 @@ class Block:
 
         # Initialize the number of pages that this block can contain
         self.pages = []
+        for i in range(self.size / self.page_size):
+            self.pages.append(Page(self.page_size))
 
     def newPage(self):
-        self.reads += 1
+        # self.reads += 1
         if len(self.pages) + 1 > self.size:
             return False
         else:
-            self.writes += 1
+            # self.writes += 1
             self.pages.append(Page(self.page_size))
-            return True
+            return self.pages[-1]
 
     def readPage(self, seq):
         pass
+
+    def get_status(self):
+        return "Reads: {0}, Writes: {1}".format(self.reads, self.writes)
 
 
 class Disk:
@@ -67,9 +81,23 @@ class Disk:
             self.blocks.append(Block(block_size, page_size))
 
             # And now we have a hard drive!
+        self.pages_per_block = self.page_size / self.block_size
 
-    def put(self, data):
-        """
-        Puts data into the next available slot on the hard disk
-        """
 
+    def get_status(self):
+        # Print the status of this drive and its pages
+        for block in self.blocks:
+            print block.get_status()
+            for page in block.pages:
+                print page.get_status()
+
+
+    def request_page(self):
+        """
+         Get an empty page from the disk, if available
+        """
+        for block in self.blocks:
+            for page in block.pages:
+                if page.isempty():
+                    return page
+        return None

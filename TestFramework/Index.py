@@ -11,11 +11,11 @@ class Index:
             self.disk.put(data)
 
 
-    def put(self, key, data):
-        pass
-
-    def get(self, key):
-        pass
+    # def put(self, key, data):
+    #     pass
+    #
+    # def get(self, key):
+    #     pass
 
     def print_status(self):
-        pass
+        self.disk.get_status()

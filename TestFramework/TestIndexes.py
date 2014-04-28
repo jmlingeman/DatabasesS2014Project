@@ -14,5 +14,10 @@ hash_index = HashIndex(disk, n_buckets)
 
 # Add some data to it
 hash_index.put(1, "key")
+hash_index.put(2, "key")
+hash_index.put(3, "key")
+hash_index.put(4, "key")
+
 
 # Print its results
+hash_index.print_status()
