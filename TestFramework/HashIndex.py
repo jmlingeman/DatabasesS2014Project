@@ -56,3 +56,7 @@ class HashIndex(Index):
         # TODO Make this function better
         return key % self.nbuckets
 
+    def get(self, key):
+        bucket_number = self.hash_function(key)
+        bucket = self.buckets[key]
+        return bucket.find_key(key)

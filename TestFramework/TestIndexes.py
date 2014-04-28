@@ -18,6 +18,7 @@ hash_index.put(2, "key")
 hash_index.put(3, "key")
 hash_index.put(4, "key")
 
+hash_index.get(2)
 
 # Print its results
 hash_index.print_status()
