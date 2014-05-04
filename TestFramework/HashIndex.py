@@ -1,5 +1,7 @@
 __author__ = 'jesse'
 
+import hashlib
+
 from Index import Index
 
 
@@ -34,6 +36,9 @@ class Bucket:
 
 class HashIndex(Index):
     def __init__(self, disk, nbuckets):
+        """
+        Initialize the hash index and set up the buckets
+        """
         self.disk = disk
         self.nbuckets = nbuckets
         self.buckets = {}
@@ -52,11 +57,13 @@ class HashIndex(Index):
 
 
     def hash_function(self, key):
-        # Super simple hash function
-        # TODO Make this function better
-        return key % self.nbuckets
+        # Hash function now uses the MD5 sum of the key
+        return int(hashlib.md5(str(key)).hexdigest(), 16) % self.nbuckets
 
     def get(self, key):
+        """
+         The get function retrieves the page(s) associated with the requested key
+        """
         bucket_number = self.hash_function(key)
         bucket = self.buckets[key]
         return bucket.find_key(key)
