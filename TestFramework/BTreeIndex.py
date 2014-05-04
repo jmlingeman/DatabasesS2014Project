@@ -5,6 +5,11 @@ import hashlib
 from Index import Index
 
 
+class TreeNode:
+    def __init__(self):
+        pass
+
+
 class BTreeIndex(Index):
     def __init__(self, disk):
         """
