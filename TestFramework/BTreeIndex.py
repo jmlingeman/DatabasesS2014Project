@@ -4,6 +4,12 @@ import hashlib
 
 from Index import Index
 
+"""
+Questions:
+How exactly will the index be built: do we store the location of the sequence in the table and have the name be the lookup?
+Or do we store the name with the sequence linked?
+"""
+
 
 class TreeNode:
     def __init__(self):
