@@ -67,3 +67,10 @@ class HashIndex(Index):
         bucket_number = self.hash_function(key)
         bucket = self.buckets[key]
         return bucket.find_key(key)
+
+    def find(self, datum):
+        """
+        Function for finding a specific datum in the index
+        """
+        # TODO Implement
+        pass
