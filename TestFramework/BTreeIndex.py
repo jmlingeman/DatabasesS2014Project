@@ -6,7 +6,7 @@ from Index import Index
 
 
 class BTreeIndex(Index):
-    def __init__(self, disk, nbuckets):
+    def __init__(self, disk):
         """
         Initialize the btree and set up the buckets
         """
@@ -36,4 +36,10 @@ class BTreeIndex(Index):
         Function for finding a specific datum in the index
         """
         # TODO Implement
+        pass
+
+    def rebalance(self):
+        pass
+
+    def bulk_load(self):
         pass
