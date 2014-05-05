@@ -11,6 +11,8 @@ class _BNode(object):
         self.tree = tree
         self.contents = contents or []
         self.children = children or []
+        self.writes = 0
+        self.reads = 0
         if self.children:
             assert len(self.contents) + 1 == len(self.children), \
                 "one more child than data item required"
@@ -20,6 +22,7 @@ class _BNode(object):
         return "<%s %s>" % (name, ", ".join(map(str, self.contents)))
 
     def lateral(self, parent, parent_index, dest, dest_index):
+        self.reads += 1
         if parent_index > dest_index:
             dest.contents.append(parent.contents[dest_index])
             parent.contents[dest_index] = self.contents.pop(0)
@@ -33,6 +36,8 @@ class _BNode(object):
 
     def shrink(self, ancestors):
         parent = None
+        self.writes += 1
+        self.reads += 1
 
         if ancestors:
             parent, parent_index = ancestors.pop()
@@ -67,6 +72,8 @@ class _BNode(object):
             parent.shrink(ancestors)
 
     def grow(self, ancestors):
+        self.writes += 1
+        self.reads += 1
         parent, parent_index = ancestors.pop()
 
         minimum = self.tree.order // 2
@@ -111,6 +118,8 @@ class _BNode(object):
                 self.tree._root = left_sib or self
 
     def split(self):
+        self.writes += 1
+        self.reads += 1
         center = len(self.contents) // 2
         median = self.contents[center]
         sibling = type(self)(
@@ -122,12 +131,16 @@ class _BNode(object):
         return sibling, median
 
     def insert(self, index, item, ancestors):
+        self.reads += 1
+        self.writes += 1
         self.contents.insert(index, item)
         if len(self.contents) > self.tree.order:
             self.shrink(ancestors)
 
     def remove(self, index, ancestors):
         minimum = self.tree.order // 2
+        self.writes += 1
+        self.reads += 1
 
         if self.children:
             # try promoting from the right subtree first,
@@ -163,6 +176,8 @@ class _BPlusLeaf(_BNode):
     __slots__ = ["tree", "contents", "data", "next"]
 
     def __init__(self, tree, contents=None, data=None, next=None):
+        self.reads = 0
+        self.writes = 0
         self.tree = tree
         self.contents = contents or []
         self.data = data or []
@@ -170,6 +185,8 @@ class _BPlusLeaf(_BNode):
         assert len(self.contents) == len(self.data), "one data per key"
 
     def insert(self, index, key, data, ancestors):
+        self.writes += 1
+        self.reads += 1
         self.contents.insert(index, key)
         self.data.insert(index, data)
 
@@ -177,6 +194,8 @@ class _BPlusLeaf(_BNode):
             self.shrink(ancestors)
 
     def lateral(self, parent, parent_index, dest, dest_index):
+        self.writes += 1
+        self.reads += 1
         if parent_index > dest_index:
             dest.contents.append(self.contents.pop(0))
             dest.data.append(self.data.pop(0))
@@ -200,6 +219,8 @@ class _BPlusLeaf(_BNode):
         return sibling, sibling.contents[0]
 
     def remove(self, index, ancestors):
+        self.writes += 1
+        self.reads += 1
         minimum = self.tree.order // 2
         if index >= len(self.contents):
             self, index = self.next, 0
@@ -223,6 +244,8 @@ class _BPlusLeaf(_BNode):
         self.grow(ancestors)
 
     def grow(self, ancestors):
+        self.writes += 1
+        self.reads += 1
         minimum = self.tree.order // 2
         parent, parent_index = ancestors.pop()
         left_sib = right_sib = None
