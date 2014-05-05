@@ -8,12 +8,15 @@ from Index import Index
 Questions:
 How exactly will the index be built: do we store the location of the sequence in the table and have the name be the lookup?
 Or do we store the name with the sequence linked?
+
+Have one BTree for doing ID->seq lookups, one for doing location->ID lookups
 """
 
 
 class TreeNode:
-    def __init__(self):
-        pass
+    def __init__(self, parent):
+        self.parent = parent
+        self.keys = []
 
 
 class BTreeIndex(Index):
