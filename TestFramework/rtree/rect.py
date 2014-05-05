@@ -1,5 +1,7 @@
 import math
 
+# This code comes from the pyrtree project and is modified for this project
+
 
 class Rect(object):
     """

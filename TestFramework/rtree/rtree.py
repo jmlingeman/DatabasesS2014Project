@@ -1,6 +1,8 @@
 ## R-tree.
 # see doc/ref/r-tree-clustering-split-algo.pdf
 
+# This code comes from the pyrtree project and is modified for this project
+
 MAXCHILDREN = 10
 MAX_KMEANS = 5
 import random

@@ -2,6 +2,7 @@ import bisect
 import itertools
 import operator
 
+# Comes from pybtree gist online
 
 class _BNode(object):
     __slots__ = ["tree", "contents", "children"]
