@@ -10,7 +10,7 @@ from Utils import create_ngrams
 __author__ = 'jesse'
 
 
-def create_indexes():
+def create_btree_indexes():
     # Create a new hash index
     n_blocks = 5
     n_blocksize = 10
