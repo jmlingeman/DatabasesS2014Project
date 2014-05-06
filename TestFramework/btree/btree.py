@@ -5,7 +5,7 @@ import operator
 # Comes from pybtree gist online
 
 class _BNode(object):
-    __slots__ = ["tree", "contents", "children"]
+    __slots__ = ["tree", "contents", "children", "writes", "reads"]
 
     def __init__(self, tree, contents=None, children=None):
         self.tree = tree
@@ -19,7 +19,7 @@ class _BNode(object):
 
     def __repr__(self):
         name = getattr(self, "children", 0) and "Branch" or "Leaf"
-        return "<%s %s>" % (name, ", ".join(map(str, self.contents)))
+        return "<%s Reads:%d Writes:%d %s>" % (name, self.reads, self.writes, ", ".join(map(str, self.contents)))
 
     def lateral(self, parent, parent_index, dest, dest_index):
         self.reads += 1
@@ -586,6 +586,9 @@ class BPlusTreeTests(unittest.TestCase):
 
         for item in l:
             bt.insert(item, str(item))
+
+        print l[0], bt.getlist(l[0])
+        print bt
 
         for item in l:
             self.assertEqual(str(item), bt[item])
