@@ -5,4 +5,6 @@ Indexes we want to build:
 
 Queries
     - Intersection query
-    -
+
+Things we might want to keep track of:
+    - Index occupancy
