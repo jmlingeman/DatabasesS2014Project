@@ -196,3 +196,5 @@ def occurrencesSeq(vals, trjs, idx):
 
 bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 
+containing = contained("BIRC-301-1", bTreeLoc2ID)
+print ','.join(containing)
