@@ -203,5 +203,8 @@ def occurrencesSeq(vals, trjs, idx):
 
 bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 
-containing = contained(["BIRC-301-1"], bTreeLoc2ID)
-print(containing)
+containedVals = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
+print("contained:\n\n%s\n" % str(containedVals))
+
+containedValsD = containedDistinct(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
+print("containedDistinct:\n\n%s\n" % str(containedVals))
