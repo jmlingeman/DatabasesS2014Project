@@ -53,7 +53,7 @@ def create_btree_indexes(debug=False):
             if len(r) == 0:
                 btree_loc_to_id.insert(t, [d[0]])
             else:
-                btree_loc_to_id.get(t).append(d[0])
+                btree_loc_to_id.get(t).append(list(set(d[0])))
 
     if debug:
         print time.time() - stime
