@@ -194,16 +194,5 @@ def occurrencesSeq(vals, trjs, idx):
 # Main Program
 #######################################
 
-# n_blocks = 5
-# n_blocksize = 10
-# page_size = 5
-
-# n_buckets = 5
-
-a, b, c = create_btree_indexes()
-
-# db = Disk(n_blocks, n_blocksize, page_size)
-
-# hashIndex = HI(disk, n_buckets)
-# btreeIndex = BTI(disk)
+bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 
