@@ -1,0 +1,8 @@
+Indexes we want to build:
+    - Index where leaves are the the trajectory that contains a key + the indices of that traj of that key
+    - Index where leaves are the locations
+    - Index UUID of trajectory is key, points to the trajectory itself
+
+Queries
+    - Intersection query
+    -

@@ -289,6 +289,9 @@ class BTree(object):
         ancestry = []
 
         while getattr(current, "children", None):
+            # Put in a read each time we actually read from the node while traversing the tree
+            current.reads += 1
+
             index = bisect.bisect_left(current.contents, item)
             ancestry.append((current, index))
             if index < len(current.contents) \
@@ -441,8 +444,10 @@ class BPlusTree(BTree):
     def _path_to(self, item):
         path = super(BPlusTree, self)._path_to(item)
         node, index = path[-1]
+        node.reads += 1
         while hasattr(node, "children"):
             node = node.children[index]
+            node.reads += 1
             index = bisect.bisect_left(node.contents, item)
             path.append((node, index))
         return path
@@ -580,20 +585,26 @@ class BPlusTreeTests(unittest.TestCase):
         self.assertEqual(l, list(bt))
 
     def test_additions_random(self):
+        n = 20
+
         bt = BPlusTree(20)
-        l = range(2000)
+        l = range(n)
         random.shuffle(l)
 
         for item in l:
             bt.insert(item, str(item))
 
         print l[0], bt.getlist(l[0])
-        print bt
 
         for item in l:
             self.assertEqual(str(item), bt[item])
 
-        self.assertEqual(range(2000), list(bt))
+        for item in l:
+            bt.get(l)
+
+        print bt
+
+        self.assertEqual(range(n), list(bt))
 
     def test_bulkload(self):
         bt = BPlusTree.bulkload(zip(range(2000), map(str, range(2000))), 20)
