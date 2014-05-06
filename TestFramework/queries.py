@@ -71,7 +71,10 @@ def contained(vals, idx):
     result = []
     
     for val in vals:
-        result.append(idx.get(val))
+        res = idx.get(val)
+        
+        if len(res) != 0:
+            result.append(res)
         
     return result
         
@@ -80,13 +83,17 @@ def contained(vals, idx):
 def containedDistinct(vals, idx):
     """ SELECT DISTINCT t.rec
         FROM t
-        WHERE t.val IN vals """
-        
-    temp = []
+        WHERE t.val IN vals """        
+    
     result = []
     
     for val in vals:
-        distinct(result, [idx.get(val)])
+        res = idx.get(val)
+        
+        if len(res) != 0:            
+            distinct(result, [res])
+            
+    return result
         
 # End of containedDistinct
 
@@ -196,5 +203,5 @@ def occurrencesSeq(vals, trjs, idx):
 
 bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 
-containing = contained("BIRC-301-1", bTreeLoc2ID)
-print ','.join(containing)
+containing = contained(["BIRC-301-1"], bTreeLoc2ID)
+print(containing)
