@@ -4,7 +4,6 @@ from Disk import Disk
 from HashIndex import HashIndex
 from DataParser import read_trajectory_data
 from BTreeIndex import BPlusTree
-from Utils import create_ngrams
 
 
 __author__ = 'jesse'
@@ -30,12 +29,12 @@ def create_btree_indexes():
     hash_index.get(2)
 
     # Print its results
-    hash_index.print_status()
+    # hash_index.print_status()
 
     # Teat reading in the trajectory data
     data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
 
-    print create_ngrams(data[1][1], 2)
+    # print create_ngrams(data[1][1], 2)
 
     # Create a simple BTree of id => trajectory
     # Start with an order 50
@@ -56,9 +55,9 @@ def create_btree_indexes():
             else:
                 btree_loc_to_id.get(t).append(d[0])
 
-    print time.time() - stime
+    # print time.time() - stime
 
-    print btree_loc_to_id.get(names[0])
+    # print btree_loc_to_id.get(names[0])
 
     print "Creating location => id + idx btree"
     stime = time.time()
@@ -71,8 +70,8 @@ def create_btree_indexes():
             else:
                 btree_loc_to_id_idx.get(t).append((d[0], i))
 
-    print time.time() - stime
-    print btree_loc_to_id_idx.get(names[0])
+    # print time.time() - stime
+    # print btree_loc_to_id_idx.get(names[0])
 
     # # Same tree but with ngrams
     # # Create an index of location => ids
