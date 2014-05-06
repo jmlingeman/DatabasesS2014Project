@@ -8,3 +8,7 @@ Queries
 
 Things we might want to keep track of:
     - Index occupancy
+    - Memory usage
+
+Things we want to do:
+    - NGram hash indexes?
