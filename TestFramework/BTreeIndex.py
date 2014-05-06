@@ -438,7 +438,7 @@ class BPlusTree(BTree):
             path.append((node, index))
         return path
 
-    def get(self, key, default=None):
+    def get(self, key, default=[]):
         try:
             return self._get(key).next()
         except StopIteration:
