@@ -1,9 +1,10 @@
 __author__ = 'jennie'
 
-from TestFramework.HashIndex import HashIndex as HI
-from TestFramework.BTreeIndex import BTreeIndex as BTI
-from TestFramework.RTreeIndex import RTreeIndex as RTI
-from TestFramework.Disk import Disk
+# from TestFramework.HashIndex import HashIndex as HI
+# from TestFramework.BTreeIndex import BTreeIndex as BTI
+# from TestFramework.RTreeIndex import RTreeIndex as RTI
+# from TestFramework.Disk import Disk
+from CreateIndexes import *
 
 def distinct(current, other):
     """ Unifies two sets of query results into a set """
@@ -133,7 +134,7 @@ def nGramSeq(vals, idx):
                             if tr.count(vals[0]) > 0:
                                 # the trj is not over
                                 start = tr[1:].index(vals[0]) + 1
-                                tr = [start:]
+                                tr = trj[start:]
                                 
                         break
                         
@@ -172,7 +173,7 @@ def nGramSeq(vals, idx):
     return result
 # End of nGramSeq
 
-def occurrencesSeq(vals, trjs, idx)
+def occurrencesSeq(vals, trjs, idx):
     """ SELECT DISTINCT t.val.idx
         FROM t
         WHERE t.val IN (vals) AND
@@ -197,14 +198,16 @@ def occurrencesSeq(vals, trjs, idx)
 # Main Program
 #######################################
 
-n_blocks = 5
-n_blocksize = 10
-page_size = 5
+# n_blocks = 5
+# n_blocksize = 10
+# page_size = 5
 
-n_buckets = 5
+# n_buckets = 5
 
-db = Disk(n_blocks, n_blocksize, page_size)
+a, b, c = create_btree_indexes()
 
-hashIndex = HI(disk, n_buckets)
-btreeIndex = BTI(disk)
+# db = Disk(n_blocks, n_blocksize, page_size)
+
+# hashIndex = HI(disk, n_buckets)
+# btreeIndex = BTI(disk)
 
