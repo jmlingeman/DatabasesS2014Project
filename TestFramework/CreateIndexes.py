@@ -61,6 +61,7 @@ def create_btree_indexes(debug=False):
         print names[0], btree_loc_to_id.get(names[0])
 
     print "Creating location => id + idx btree"
+    # Will always have unique data points since is UUID, idx of occurrence
     stime = time.time()
     btree_loc_to_id_idx = BPlusTree(order)
     for d in data:
