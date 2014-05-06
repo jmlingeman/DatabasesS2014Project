@@ -1,9 +1,9 @@
 import time
 
-from TestFramework.Disk import Disk
-from TestFramework.HashIndex import HashIndex
+from Disk import Disk
+from HashIndex import HashIndex
 from DataParser import read_trajectory_data
-from TestFramework.BTreeIndex import BPlusTree
+from BTreeIndex import BPlusTree
 from Utils import create_ngrams
 
 

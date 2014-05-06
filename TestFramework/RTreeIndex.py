@@ -1,4 +1,4 @@
-from TestFramework.Index import Index
+from Index import Index
 
 __author__ = 'jesse'
 

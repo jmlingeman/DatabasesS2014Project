@@ -1,9 +1,9 @@
 __author__ = 'jennie'
 
-from TestFramework.HashIndex import HashIndex as HI
-from TestFramework.BTreeIndex import BTreeIndex as BTI
-from TestFramework.RTreeIndex import RTreeIndex as RTI
-from TestFramework.Disk import Disk
+from HashIndex import HashIndex as HI
+from BTreeIndex import BTreeIndex as BTI
+from Disk import Disk
+
 
 def count():
     """ SELECT COUNT(*)
