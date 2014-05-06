@@ -9,7 +9,7 @@ from BTreeIndex import BPlusTree
 __author__ = 'jesse'
 
 
-def create_btree_indexes():
+def create_btree_indexes(debug=False):
     # Create a new hash index
     n_blocks = 5
     n_blocksize = 10
@@ -50,14 +50,15 @@ def create_btree_indexes():
     for d in data:
         for t in d[1]:
             r = btree_loc_to_id.get(t)
-            if r == None:
+            if len(r) == 0:
                 btree_loc_to_id.insert(t, [d[0]])
             else:
                 btree_loc_to_id.get(t).append(d[0])
 
-    # print time.time() - stime
-
-    # print btree_loc_to_id.get(names[0])
+    if debug:
+        print time.time() - stime
+        print "Loc names:"
+        print names[0], btree_loc_to_id.get(names[0])
 
     print "Creating location => id + idx btree"
     stime = time.time()
@@ -65,13 +66,14 @@ def create_btree_indexes():
     for d in data:
         for i, t in enumerate(d[1]):
             r = btree_loc_to_id_idx.get(t)
-            if r == None:
+            if len(r) == 0:
                 btree_loc_to_id_idx.insert(t, [(d[0], i)])
             else:
                 btree_loc_to_id_idx.get(t).append((d[0], i))
 
-    # print time.time() - stime
-    # print btree_loc_to_id_idx.get(names[0])
+    if debug:
+        print time.time() - stime
+        print btree_loc_to_id_idx.get(names[0])
 
     # # Same tree but with ngrams
     # # Create an index of location => ids
@@ -81,7 +83,7 @@ def create_btree_indexes():
     # for d in data:
     #     for i, t in enumerate(create_ngrams(d[1], 2)):
     #         r = btree_loc_to_id_2gram.get(t)
-    #         if r == None:
+    #         if len(r) == 0:
     #             btree_loc_to_id_2gram.insert(t, [d[0]])
     #         else:
     #             btree_loc_to_id_2gram.get(t).append(d[0])
@@ -95,7 +97,7 @@ def create_btree_indexes():
     # for d in data:
     #     for i, t in enumerate(create_ngrams(d[1], 2)):
     #         r = btree_loc_to_id_2gram_idx.get(t)
-    #         if r == None:
+    #         if len(r) == 0:
     #             btree_loc_to_id_2gram_idx.insert(t, [(d[0], i)])
     #         else:
     #             btree_loc_to_id_2gram_idx.get(t).append((d[0], i))
@@ -107,6 +109,8 @@ def create_btree_indexes():
     return btree, btree_loc_to_id, btree_loc_to_id_idx
 
 
+if __name__ == "__main__":
+    create_btree_indexes(True)
 
     # print btree.get(1)
 
