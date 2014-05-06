@@ -5,6 +5,17 @@ from TestFramework.BTreeIndex import BTreeIndex as BTI
 from TestFramework.RTreeIndex import RTreeIndex as RTI
 from TestFramework.Disk import Disk
 
+def distinct(current, other):
+    """ Unifies two sets of query results into a set """
+    
+    for val in other:
+        if val not in current:
+            current.append(val)
+            
+    return current
+    
+# End of distinct
+
 def count():
     """ SELECT COUNT(*)
         FROM t """
@@ -181,17 +192,6 @@ def occurrencesSeq(vals, trjs, idx)
     return result
 
 # End of occurrences
-
-def distinct(current, other):
-    """ Unifies two sets of query results into a set """
-    
-    for val in other:
-        if val not in current:
-            current.append(val)
-            
-    return current
-    
-# End of distinct
 
 #######################################
 # Main Program
