@@ -9,24 +9,21 @@ from BTreeIndex import BPlusTree
 __author__ = 'jesse'
 
 
-def create_btree_indexes(debug=False):
+def create_hash_indexes(debug=False):
     # Create a new hash index
     n_blocks = 5
     n_blocksize = 10
     page_size = 5
     n_buckets = 5
-    order = 150
+
+    data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
 
     disk = Disk(n_blocks, n_blocksize, page_size)
     hash_index = HashIndex(disk, n_buckets)
 
-    # Add some data to it
-    hash_index.put(1, "key")
-    hash_index.put(2, "key")
-    hash_index.put(3, "key")
-    hash_index.put(4, "key")
 
-    hash_index.get(2)
+def create_btree_indexes(debug=False):
+    order = 150
 
     # Print its results
     # hash_index.print_status()
@@ -53,7 +50,8 @@ def create_btree_indexes(debug=False):
             if len(r) == 0:
                 btree_loc_to_id.insert(t, [d[0]])
             else:
-                btree_loc_to_id.get(t).append(list(set(d[0])))
+                if d[0] not in r:
+                    r.append(d[0])
 
     if debug:
         print time.time() - stime
@@ -61,6 +59,7 @@ def create_btree_indexes(debug=False):
         print names[0], btree_loc_to_id.get(names[0])
 
     print "Creating location => id + idx btree"
+    # Will always have unique data points since is UUID, idx of occurrence
     stime = time.time()
     btree_loc_to_id_idx = BPlusTree(order)
     for d in data:
@@ -69,7 +68,8 @@ def create_btree_indexes(debug=False):
             if len(r) == 0:
                 btree_loc_to_id_idx.insert(t, [(d[0], i)])
             else:
-                btree_loc_to_id_idx.get(t).append((d[0], i))
+                # if (d[0], i) not in r:
+                r.append((d[0], i))
 
     if debug:
         print time.time() - stime
@@ -86,7 +86,8 @@ def create_btree_indexes(debug=False):
     #         if len(r) == 0:
     #             btree_loc_to_id_2gram.insert(t, [d[0]])
     #         else:
-    #             btree_loc_to_id_2gram.get(t).append(d[0])
+    #             if (d[0], i) not in r:
+    #               btree_loc_to_id_2gram.get(t).append(d[0])
     #
     # print time.time() - stime
     # print btree_loc_to_id_2gram.get([names[0], names[0]])

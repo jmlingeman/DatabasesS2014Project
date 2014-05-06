@@ -46,7 +46,7 @@ class HashIndex(Index):
             self.buckets[i] = Bucket(i, disk)
 
 
-    def put(self, key, datum):
+    def insert(self, key, datum):
         # Find the correct block and page to place this datum in to
         # We are going to assume that the keys are equally distributed
         # for now
