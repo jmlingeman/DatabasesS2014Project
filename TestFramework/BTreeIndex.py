@@ -558,7 +558,7 @@ class BPlusTree(BTree):
 
         return calc_stats(reads, writes)
 
-    def clear_stats(self):
+    def reset_stats(self):
         def recurse(node, accum, depth):
             accum.append(node)
             for node in getattr(node, "children", []):

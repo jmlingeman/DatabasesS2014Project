@@ -90,6 +90,8 @@ def create_btree_indexes(debug=False):
         btree.insert(d[0], d[1])
 
     if debug:
+        print "CLEARING"
+        btree.clear_stats()
         print btree.get_statistics()
 
     # Create an index of location => ids
@@ -172,8 +174,9 @@ def create_btree_indexes(debug=False):
 
 
 if __name__ == "__main__":
-    create_hash_indexes(True)
+    # create_hash_indexes(True)
     create_btree_indexes(True)
+
 
     # print btree.get(1)
 
