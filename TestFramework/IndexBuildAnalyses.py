@@ -136,7 +136,7 @@ def plot_multiple_stats(statlist, name, sample_factor):
         plt.ylabel(key)
         plt.title(name)
 
-        plt.legend(lines, ["Hash Index", "BTree Index"], loc=4)
+        plt.legend(lines, ["Hash Index", "BTree Index"], loc=2)
 
         # plt.tight_layout()
         plt.savefig("../Graphs/" + name + "-" + key + ".pdf")
