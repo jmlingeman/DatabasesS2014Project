@@ -1,8 +1,6 @@
 __author__ = 'jennie'
 
-from CreateIndexes import *
-from DataParser import read_trajectory_data
-
+# from Index import Index
 
 def distinct(current, other):
     """ Unifies two sets of query results into a set """
@@ -13,20 +11,17 @@ def distinct(current, other):
 
     return current
 
-
 # End of distinct
 
-def count():
+def count(idx):
     """ SELECT COUNT(*)
         FROM t """
-
 
 # End of count
 
 def countDistinct(idx):
     """ SELECT DISTINCT COUNT(*)
         FROM t """
-
 
 # End of countDistinct
 
@@ -45,8 +40,21 @@ def contains(recs, idx):
 
     return result
 
-
 # End of contains
+
+def containsSeq(recs, idx):
+    """ Same as contains but without using a fancy index """
+    
+    result = []
+    
+    for trj in idx:
+        
+        if trj[0] in recs:
+            result.extend(trj[1])
+            
+    return result
+
+# End of containsSeq
 
 def containsDistinct(recs, idx):
     """ SELECT DISTINCT t.val
@@ -63,8 +71,22 @@ def containsDistinct(recs, idx):
 
     return result
 
-
 # End of containsDistinct
+
+
+def containsDistinctSeq(recs, idx):
+    """ Same as containsDistinct but without using a fancy index """
+    
+    result = []
+    
+    for trj in idx:
+        
+        if trj[0] in recs:
+            distinct(result, trj[1])
+            
+    return result
+    
+# End of containsDistinctSeq
 
 def contained(vals, idx):
     """ SELECT t.rec
@@ -81,8 +103,23 @@ def contained(vals, idx):
 
     return result
 
-
 # End of contained
+
+def containedSeq(vals, idx):
+    """ Same as contained but without using a fancy index """
+    
+    result = []
+    
+    for val in vals:
+    
+        for trj in idx:
+        
+            if val in trj[1]:
+                result.append(trj[0])
+                
+    return result    
+
+# End of containedSeq
 
 def containedDistinct(vals, idx):
     """ SELECT DISTINCT t.rec
@@ -99,8 +136,23 @@ def containedDistinct(vals, idx):
 
     return result
 
-
 # End of containedDistinct
+
+def containedDistinctSeq(vals, idx):
+    """ Same as containedDistinct but without using a fancy index """
+    
+    result = []
+    
+    for val in vals:
+    
+        for trj in idx:
+        
+            if val in trj[1]:
+                distinct(result, [trj[0]])
+                
+    return result    
+
+# End of containedDistinctSeq
 
 def nGram(vals, tidx, lidx):
     """ SELECT t.rec
@@ -202,7 +254,6 @@ def nGram(vals, tidx, lidx):
 
     return result
 
-
 # End of nGramSeq
 
 def occurrencesSeq(vals, trjs, idx):
@@ -226,29 +277,3 @@ def occurrencesSeq(vals, trjs, idx):
 
 # End of occurrences
 
-#######################################
-# Main Program
-#######################################
-
-bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
-hash, hashLoc2ID, hashLoc2IDIdx = create_hash_indexes()
-#asdofijosiajdf
-
-# containedVals = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
-# print("contained: count: %i\n\n%s\n" % (len(containedVals), str(containedVals)))
-
-# containedValsD = containedDistinct(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
-# print("containedDistinct: count: %i\n\n%s\n" % (len(containedValsD), str(containedValsD)))
-
-# containsVals = contains([30, 47], bTree)
-# print("contains: count: %i\n\n%s\n" % (len(containsVals), str(containsVals)))
-
-# containsValsD = containsDistinct([30, 47], bTree) 
-# print("containsDistinct: count: %i\n\n%s\n" % (len(containsValsD), str(containsValsD)))
-
-# Get the dataset from the dataparser, and its corresponding helpers
-# This is a bit wasteful because it is already read in in CreateIndexes, but whatever. The file isn't too large.
-data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
-
-ngram = nGram(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
-print("nGramSeq: count: %i\n\n%s\n" % (len(ngram), str(ngram)))
