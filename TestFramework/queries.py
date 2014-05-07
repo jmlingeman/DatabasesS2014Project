@@ -96,7 +96,7 @@ def containedDistinct(vals, idx):
         
 # End of containedDistinct
 
-def nGramSeq(vals, tidx, lidx):
+def nGram(vals, tidx, lidx):
     """ SELECT t.rec
         FROM t
         WHERE CONCAT(val_1, val_2, ... , val_n) IN t.trj """
@@ -241,5 +241,5 @@ hash, hashLoc2ID, hashLoc2IDIdx = create_hash_indexes()
 # This is a bit wasteful because it is already read in in CreateIndexes, but whatever. The file isn't too large.
 data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
 
-ngram = nGramSeq(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
+ngram = nGram(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
 print("nGramSeq: count: %i\n\n%s\n" % (len(ngram), str(ngram)))
