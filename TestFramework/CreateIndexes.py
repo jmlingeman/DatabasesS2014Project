@@ -24,7 +24,8 @@ def create_hash_indexes(debug=False):
     print "Creating id => trajectory hash"
     for d in data:
         hash_index.insert(d[0], d[1])
-    print hash_index.get_statistics()
+    if (debug):
+        print hash_index.get_statistics()
 
     print "Creating location => id hash"
     stime = time.time()
@@ -38,8 +39,9 @@ def create_hash_indexes(debug=False):
             else:
                 if d[0] not in r:
                     hash_loc_to_id.get_and_write(t).append(d[0])
-    print time.time() - stime
-    print hash_loc_to_id.get_statistics()
+    if (debug):
+        print time.time() - stime
+        print hash_loc_to_id.get_statistics()
 
     print "Creating location => id hash with idx"
     stime = time.time()
@@ -52,9 +54,11 @@ def create_hash_indexes(debug=False):
                 hash_loc_to_id_idx.insert(t, [(d[0], i)])
             else:
                 hash_loc_to_id_idx.get_and_write(t).append((d[0], i))
-    print time.time() - stime
 
-    print hash_loc_to_id_idx.get_statistics()
+    if (debug):
+        print time.time() - stime
+
+        print hash_loc_to_id_idx.get_statistics()
 
     return hash_index, hash_loc_to_id, hash_loc_to_id_idx
 
