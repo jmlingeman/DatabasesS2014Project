@@ -256,7 +256,7 @@ def nGram(vals, tidx, lidx):
 
 # End of nGramSeq
 
-def occurrencesSeq(vals, trjs, idx):
+def occurrences(vals, trjs, idx):
     """ SELECT DISTINCT t.val.idx
         FROM t
         WHERE t.val IN (vals) AND
@@ -264,6 +264,33 @@ def occurrencesSeq(vals, trjs, idx):
 
     result = []
     temp = []
+    
+    if len(trjs) == 0:
+        trjs = [i in range (len(idx))]
+
+    for trj in trjs:
+        distinct(temp, [idx.get(trj)])
+
+    for trj in temp:
+        for i in range(len(trj)):
+            if trj[i] in vals:
+                result.append(i)
+
+    return result
+
+# End of occurrences
+
+def occurrencesDistinct(vals, trjs, idx):
+    """ SELECT DISTINCT t.val.idx
+        FROM t
+        WHERE t.val IN (vals) AND
+            t.rec IN (trj) """
+
+    result = []
+    temp = []
+    
+    if len(trjs) == 0:
+        trjs = [i in range (len(idx))]
 
     for trj in trjs:
         distinct(temp, [idx.get(trj)])
@@ -275,5 +302,36 @@ def occurrencesSeq(vals, trjs, idx):
 
     return result
 
-# End of occurrences
+# End of occurrencesDistinct
 
+def occurrencesGrouped(vals, trjs, idx):
+    """ SELECT DISTINCT t.val.idx
+        FROM t
+        WHERE t.val IN (vals) AND
+            t.rec IN (trj) 
+        GROUP BY t.val """
+        
+    result = []
+    
+    temp = []
+    
+    if len(trjs) == 0:
+        trjs = [i in range (len(idx))]
+    
+    for val in vals:
+        temp.append([val, idx.get(val)])
+        
+    print("complex index: %s" % (str(temp[0])))
+        
+    # if type(temp[0][1]) is tuple:
+        
+        # occurs = []
+        
+        # for rec in temp:
+            
+        
+    # else:
+        
+    return result
+        
+# End of occurrencesGrouped

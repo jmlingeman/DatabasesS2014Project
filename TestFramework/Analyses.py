@@ -50,6 +50,12 @@ hash, hashLoc2ID, hashLoc2IDIdx = create_hash_indexes()
 # ngramH = nGram(["CHAD-405-1", "CHAD-405-1"], hash, hashLoc2ID)
 # print("nGramH: count: %i\n\n%s\n" % (len(ngramH), str(ngramH)))
 
+# occurrencesH = occurrences(["CHAD-405-1", "CHAD-405-1"], [5993, 9554, 10182, 13385], hash)
+# print("occurrencesH: count: %i\n\n%s\n" % (len(occurrencesH), str(occurrencesH)))
+
+# occurrencesDistinctH = occurrencesDistinct(["CHAD-405-1", "CHAD-405-1"], [5993, 9554, 10182, 13385], hash)
+# print("occurrencesDistinctH: count: %i\n\n%s\n" % (len(occurrencesDistinctH), str(occurrencesDistinctH)))
+
 #######################################
 # BTree Index Section
 #######################################
@@ -68,3 +74,11 @@ hash, hashLoc2ID, hashLoc2IDIdx = create_hash_indexes()
 
 # ngramB = nGram(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
 # print("nGramB: count: %i\n\n%s\n" % (len(ngramB), str(ngramB)))
+
+# occurrencesB = occurrences(["CHAD-405-1", "CHAD-405-1"], [5993, 9554, 10182, 13385], bTree)
+# print("occurrencesB: count: %i\n\n%s\n" % (len(occurrencesB), str(occurrencesB)))
+
+# occurrencesDistinctB = occurrencesDistinct(["CHAD-405-1", "CHAD-405-1"], [5993, 9554, 10182, 13385], bTree)
+# print("occurrencesDistinctH: count: %i\n\n%s\n" % (len(occurrencesDistinctB), str(occurrencesDistinctB)))
+
+occurrencesGrouped(["CHAD-405-1"], [], hashLoc2IDIdx)
