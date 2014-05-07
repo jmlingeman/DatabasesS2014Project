@@ -14,12 +14,10 @@ class Page:
         #     return False
         # else:
         self.writes += 1
-        print self.writes
         self.data.append(datum)
         # return True
 
     def get(self):
-        print "GET"
         self.reads += 1
         return self.data
 
