@@ -56,6 +56,8 @@ def create_hash_indexes(debug=False):
 
     print hash_loc_to_id_idx.get_statistics()
 
+    return hash_index, hash_loc_to_id, hash_loc_to_id_idx
+
 
 def create_btree_indexes(debug=False):
     order = 150
