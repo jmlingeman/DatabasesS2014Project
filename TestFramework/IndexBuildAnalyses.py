@@ -41,7 +41,7 @@ def build_index_analysis():
             hash_loc_to_id_stats.append(hash_loc_to_id.get_statistics())
 
     print "Creating location => id hash with idx"
-    hash_loc_to_id_stats = []
+    hash_loc_to_id_idx_stats = []
     disk_loc_to_id_idx = Disk(n_blocks, n_blocksize, page_size)
     hash_loc_to_id_idx = HashIndex(disk_loc_to_id_idx, n_buckets)
     for j, d in enumerate(data):
@@ -52,11 +52,55 @@ def build_index_analysis():
             else:
                 hash_loc_to_id_idx.get_and_write(t).append((d[0], i))
         if j % sample_factor == 0:
-            hash_loc_to_id_stats.append(hash_loc_to_id_idx.get_statistics())
+            hash_loc_to_id_idx_stats.append(hash_loc_to_id_idx.get_statistics())
 
     print len(hash_index_stats)
     print hash_index_stats
-    print plot_stats_array(hash_loc_to_id_stats, "", 500)
+    # print plot_stats_array(hash_loc_to_id_stats, "", 500)
+
+
+    print "Creating id => trajectory btree"
+    btree = BPlusTree(150)
+    btree_stats = []
+    for i, d in enumerate(data):
+        btree.insert(d[0], d[1])
+        if i % sample_factor == 0:
+            btree_stats.append(btree.get_statistics())
+
+    print "Creating location => id btree"
+    btree_loc_to_id = BPlusTree(order)
+    btree_loc_to_id_stats = []
+
+    for i, d in enumerate(data):
+        for t in d[1]:
+            r = btree_loc_to_id.get(t)
+            if len(r) == 0:
+                btree_loc_to_id.insert(t, [d[0]])
+            else:
+                if d[0] not in r:
+                    r.append(d[0])
+        if i % sample_factor == 0:
+            btree_loc_to_id_stats.append(btree_loc_to_id.get_statistics())
+
+    print "Creating location => id + idx btree"
+    # Will always have unique data points since is UUID, idx of occurrence
+    btree_loc_to_id_idx = BPlusTree(order)
+    btree_loc_to_id_idx_stats = []
+    for j, d in enumerate(data):
+        for i, t in enumerate(d[1]):
+            r = btree_loc_to_id_idx.get(t)
+            if len(r) == 0:
+                btree_loc_to_id_idx.insert(t, [(d[0], i)])
+            else:
+                # if (d[0], i) not in r:
+                r.append((d[0], i))
+        if j % sample_factor == 0:
+            btree_loc_to_id_idx_stats.append(btree_loc_to_id_idx.get_statistics())
+
+    plot_multiple_stats([hash_index_stats, btree_stats], "ID to Trajectory Index", sample_factor)
+    plot_multiple_stats([hash_loc_to_id_stats, btree_loc_to_id_stats], "Location to ID", sample_factor)
+    plot_multiple_stats([hash_loc_to_id_idx_stats, btree_loc_to_id_idx_stats], "Location to ID with Index",
+                        sample_factor)
 
 
 def plot_stats_array(stats, name, sample_factor):
@@ -65,8 +109,25 @@ def plot_stats_array(stats, name, sample_factor):
         s = []
         for stat in stats:
             s.append(stat[statname])
-        plt.plot(s)
-        plt.show()
+
+
+def plot_multiple_stats(statlist, name, sample_factor):
+    keys = statlist[0][0].keys()
+    for key in keys:
+        plt.clf()
+        for stats in statlist:
+            s = []
+            for stat in stats:
+                s.append(stat[key])
+            plt.plot(s)
+
+        locs, labels = plt.xticks()
+        plt.xticks(locs, map(lambda x: x * sample_factor, locs))
+        plt.ylabel(key)
+        plt.title(name)
+        plt.tight_layout()
+        plt.savefig("../Graphs/" + name + "-" + key + ".pdf")
+        # plt.show()
 
 
 if __name__ == "__main__":
