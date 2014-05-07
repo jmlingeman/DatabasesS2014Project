@@ -27,6 +27,8 @@ def create_hash_indexes(debug=False):
     if (debug):
         print hash_index.get_statistics()
 
+    print hash_index.get(1)
+
     print "Creating location => id hash"
     stime = time.time()
     disk_loc_to_id = Disk(n_blocks, n_blocksize, page_size)

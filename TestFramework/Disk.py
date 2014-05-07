@@ -19,7 +19,7 @@ class Page:
 
     def get(self):
         self.reads += 1
-        return self.data
+        return self.data[0]
 
     def get_status(self):
         return "Page Reads: {0}, Page Writes: {1}".format(self.reads, self.writes)
