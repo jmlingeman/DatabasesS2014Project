@@ -34,10 +34,10 @@ def contains(recs, idx):
     result = []
     
     for rec in recs:
-        r = idx.get(rec)
+        res = idx.get(rec)
         
-        for v in r:
-            result.append(v)
+        if len(res) != 0:
+            result.extend(res)
             
     return result
         
@@ -46,18 +46,15 @@ def contains(recs, idx):
 def containsDistinct(recs, idx):
     """ SELECT DISTINCT t.val
         FROM t
-        WHERE t.rec IN recs """
-        
-    temp = []
+        WHERE t.rec IN recs """        
+    
     result = []
     
     for rec in recs:
-        r = idx.get(rec)
+        res = idx.get(rec)
         
-        for v in r:
-            temp.append(v)
-        
-        distinct(result, temp)
+        if len(res) != 0:
+            distinct(result, res)
         
     return result
         
@@ -74,7 +71,7 @@ def contained(vals, idx):
         res = idx.get(val)
         
         if len(res) != 0:
-            result.append(res)
+            result.extend(res)
         
     return result
         
@@ -91,13 +88,13 @@ def containedDistinct(vals, idx):
         res = idx.get(val)
         
         if len(res) != 0:            
-            distinct(result, [res])
+            distinct(result, res)
             
     return result
         
 # End of containedDistinct
 
-def nGramSeq(vals, idx):
+def nGramSeq(vals, tidx, lidx):
     """ SELECT t.rec
         FROM t
         WHERE CONCAT(val_1, val_2, ... , val_n) IN t.trj """
@@ -105,47 +102,69 @@ def nGramSeq(vals, idx):
     result = []
     
     if len(vals) == 1:
-        result = contained(vals)
+        result = contained(vals, lidx)
+        
     else:
-        trjs = idx.get(vals[0])
+        trjIs = lidx.get(vals[0])
+        
+        # print("trjIs: %s\n" % (str(trjIs))) 
+        
+        trjDs = []
+        
+        for trj in trjIs:
+            trjDs.append(tidx.get(trj))
+            
+        # print("trjs: %s\n" % (str(trjs)))
+        
         n = len(vals)
         
-        if len(trjs[0]) == 1:
+        # if len(trjs[0]) == 1:
             # I have to scan sequentially
             
-            start = 0 
-            tr = []
+        start = 0 
+        tr = []
+        
+        trjs = list(zip(trjIs, trjDs))
+        
+        # counter = -1
+        for trj in trjs:
+            # Scan every trj that the ngram appears in
             
-            for trj in trjs:
-                # Scan every trj that the ngram appears in
-                start = trj.index(vals[0]) # first occurence of first value in ngram
-                tr = trj[start:0] # sub trj from occurance of first ngram value
+            # counter += 1
+            
+            # print("trj # %i: %s\n" % (counter, str(trj[1])))
+            
+            start = trj[1].index(vals[0]) # first occurence of first value in ngram
+            tr = trj[1][start:] # sub trj from occurance of first ngram value
+            
+            match = True 
+            
+            while len(tr) >= n:
+            
+                # print ("  start: %i, tr: %s\n" % (start, str(tr)))
                 
-                match = True 
+                # no point to go further if the ngram cannot fit
                 
-                while len(tr) >= n:
-                    # no point to go further if the ngram cannot fit
+                for i in range(len(vals)):
+                    # scanning the values contained in the ngram
                     
-                    for i in range(len(vals)):
-                        # scanning the values contained in the ngram
+                    if vals[i] != tr[i]:
+                        # one of the values doesn't match
                         
-                        if vals[i] != tr[i]:
-                            # one of the values doesn't match
+                        match = False            
+                        
+                        if tr.count(vals[0]) > 0:
+                            # the trj is not over
+                            start = tr[1:].index(vals[0]) + 1
+                            tr = trj[start:]
                             
-                            match = False            
-                            
-                            if tr.count(vals[0]) > 0:
-                                # the trj is not over
-                                start = tr[1:].index(vals[0]) + 1
-                                tr = trj[start:]
-                                
-                        break
-                        
-                    if match == True:
-                        # ngram fit fully, no point in scanning the rest of the trj
-                        
-                        result.append(trj)
-                        break
+                    break
+                    
+                if match == True:
+                    # ngram fit fully, no point in scanning the rest of the trj
+                    
+                    result.append(trj[0])
+                    break
         
         # else:
             #I have location info
@@ -203,8 +222,17 @@ def occurrencesSeq(vals, trjs, idx):
 
 bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 
-containedVals = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
-print("contained:\n\n%s\n" % str(containedVals))
+# containedVals = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
+# print("contained: count: %i\n\n%s\n" % (len(containedVals), str(containedVals)))
 
-containedValsD = containedDistinct(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
-print("containedDistinct:\n\n%s\n" % str(containedVals))
+# containedValsD = containedDistinct(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
+# print("containedDistinct: count: %i\n\n%s\n" % (len(containedValsD), str(containedValsD)))
+
+# containsVals = contains([30, 47], bTree)
+# print("contains: count: %i\n\n%s\n" % (len(containsVals), str(containsVals)))
+
+# containsValsD = containsDistinct([30, 47], bTree) 
+# print("containsDistinct: count: %i\n\n%s\n" % (len(containsValsD), str(containsValsD)))
+
+ngram = nGramSeq(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
+print("nGramSeq: count: %i\n\n%s\n" % (len(ngram), str(ngram)))
