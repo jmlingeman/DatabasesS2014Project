@@ -1,6 +1,8 @@
 __author__ = 'jennie'
 
 from CreateIndexes import *
+from DataParser import read_trajectory_data
+
 
 def distinct(current, other):
     """ Unifies two sets of query results into a set """
@@ -233,6 +235,10 @@ bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 
 # containsValsD = containsDistinct([30, 47], bTree) 
 # print("containsDistinct: count: %i\n\n%s\n" % (len(containsValsD), str(containsValsD)))
+
+# Get the dataset from the dataparser, and its corresponding helpers
+# This is a bit wasteful because it is already read in in CreateIndexes, but whatever. The file isn't too large.
+data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
 
 ngram = nGramSeq(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
 print("nGramSeq: count: %i\n\n%s\n" % (len(ngram), str(ngram)))
