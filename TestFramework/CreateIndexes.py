@@ -12,7 +12,7 @@ __author__ = 'jesse'
 def create_hash_indexes(debug=False):
     # Create a new hash index
     n_blocks = 200
-    n_blocksize = 1000
+    n_blocksize = 100000
     page_size = 100
     n_buckets = 100
 
@@ -24,6 +24,7 @@ def create_hash_indexes(debug=False):
     print "Creating id => trajectory hash"
     for d in data:
         hash_index.insert(d[0], d[1])
+    print hash_index.get_statistics()
 
     print "Creating location => id hash"
     stime = time.time()
@@ -36,8 +37,9 @@ def create_hash_indexes(debug=False):
                 hash_loc_to_id.insert(t, [d[0]])
             else:
                 if d[0] not in r:
-                    r.append(d[0])
+                    hash_loc_to_id.get_and_write(t).append(d[0])
     print time.time() - stime
+    print hash_loc_to_id.get_statistics()
 
     print "Creating location => id hash with idx"
     stime = time.time()
@@ -49,11 +51,10 @@ def create_hash_indexes(debug=False):
             if len(r) == 0:
                 hash_loc_to_id_idx.insert(t, [(d[0], i)])
             else:
-                if d[0] not in r:
-                    r.append((d[0], i))
+                hash_loc_to_id_idx.get_and_write(t).append((d[0], i))
     print time.time() - stime
 
-    print hash_loc_to_id_idx.print_status()
+    print hash_loc_to_id_idx.get_statistics()
 
 
 def create_btree_indexes(debug=False):
@@ -73,6 +74,8 @@ def create_btree_indexes(debug=False):
     btree = BPlusTree(150)
     for d in data:
         btree.insert(d[0], d[1])
+
+    btree.get_statistics()
 
     # Create an index of location => ids
     print "Creating location => id btree"
@@ -145,8 +148,8 @@ def create_btree_indexes(debug=False):
 
 
 if __name__ == "__main__":
-    create_hash_indexes(True)
-    # create_btree_indexes(True)
+    # create_hash_indexes(True)
+    create_btree_indexes(True)
 
     # print btree.get(1)
 

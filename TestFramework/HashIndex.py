@@ -20,6 +20,13 @@ class Bucket:
             if key == k:
                 return self.pages[i].get()
 
+    def find_key_and_write(self, key):
+        for i, k in enumerate(self.keys):
+            self.key_access_count[i] += 1
+            if key == k:
+                self.pages[i].writes += 1
+                return self.pages[i].get()
+
     def put(self, key, datum):
         if key not in self.keys:
             self.keys.append(key)
@@ -72,9 +79,50 @@ class HashIndex(Index):
         else:
             return res
 
+    def get_and_write(self, key):
+        """
+         The get function retrieves the page(s) associated with the requested key
+        """
+        bucket_number = self.hash_function(key)
+        bucket = self.buckets[bucket_number]
+        res = bucket.find_key_and_write(key)
+        if res == None:
+            return []
+        else:
+            return res
+
     def find(self, datum):
         """
         Function for finding a specific datum in the index
         """
         # TODO Implement
         pass
+
+    def get_statistics(self):
+        import numpy
+
+        reads = []
+        writes = []
+
+        for block in self.disk.blocks:
+            for page in block.pages:
+                reads.append(page.reads)
+                writes.append(page.writes)
+
+        reads_std = numpy.std(reads)
+        writes_std = numpy.std(writes)
+        reads_avg = numpy.mean(reads)
+        writes_avg = numpy.mean(writes)
+
+        stats = {
+            "reads_avg": reads_avg,
+            "writes_avg": writes_avg,
+            "reads_std": reads_std,
+            "writes_std": writes_std,
+            "reads_max": max(reads),
+            "reads_min": min(reads),
+            "writes_max": max(writes),
+            "writes_min": min(writes)
+        }
+
+        return stats

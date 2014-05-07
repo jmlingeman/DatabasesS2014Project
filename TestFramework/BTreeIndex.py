@@ -1,6 +1,8 @@
 import bisect
 import itertools
+
 import operator
+
 
 # Comes from pybtree gist online
 
@@ -521,6 +523,20 @@ class BPlusTree(BTree):
             leaves[i].next = leaves[i + 1]
 
         return leaves, [s[0] for s in seps]
+
+    def get_statistics(self):
+        branch_nodes = []
+        leaf_nodes = []
+
+        print getattr(self, "children", None)
+
+        # for node in self:
+        #     if type(node) == type(_BNode):
+        #         branch_nodes.append(node)
+        #     else:
+        #         leaf_nodes.append(node)
+        # print len(branch_nodes), len(leaf_nodes)
+        # print self[0]
 
 
 import random
