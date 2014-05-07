@@ -6,9 +6,9 @@
 MAXCHILDREN = 10
 MAX_KMEANS = 5
 import random
-import time
 import array
 
+import time
 from rect import Rect, union_all, NullRect
 
 
@@ -429,6 +429,16 @@ def k_means_cluster(root, k, nodes):
             return clusters
         else:
             cluster_centers = new_cluster_centers
-        
-    
-    
+
+
+if __name__ == "__main__":
+    from jellyfish import jaro_distance
+    from DataParser import read_trajectory_data
+
+    data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
+    dist_mat = []
+    for s in names:
+        c = []
+        for s2 in names:
+            c.append(1.0 - jellyfish.jaro_distance(s, s2))
+        dist_mat.append(c)

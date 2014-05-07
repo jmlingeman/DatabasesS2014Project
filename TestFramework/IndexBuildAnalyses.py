@@ -48,9 +48,17 @@ def build_index_analysis():
         for i, t in enumerate(d[1]):
             r = hash_loc_to_id_idx.get(t)
             if len(r) == 0:
-                hash_loc_to_id_idx.insert(t, [(d[0], i)])
+                hash_loc_to_id_idx.insert(t, [(d[0], [i])])
             else:
-                hash_loc_to_id_idx.get_and_write(t).append((d[0], i))
+                # if (d[0], i) not in r:
+                found = False
+                for k in r:
+                    if k[0] == d[0]:
+                        k[1].append(i)
+                        found = True
+                        break
+                if not found:
+                    r.append((d[0], [i]))
         if j % sample_factor == 0:
             hash_loc_to_id_idx_stats.append(hash_loc_to_id_idx.get_statistics())
 
@@ -90,10 +98,17 @@ def build_index_analysis():
         for i, t in enumerate(d[1]):
             r = btree_loc_to_id_idx.get(t)
             if len(r) == 0:
-                btree_loc_to_id_idx.insert(t, [(d[0], i)])
+                btree_loc_to_id_idx.insert(t, [(d[0], [i])])
             else:
                 # if (d[0], i) not in r:
-                r.append((d[0], i))
+                found = False
+                for k in r:
+                    if k[0] == d[0]:
+                        k[1].append(i)
+                        found = True
+                        break
+                if not found:
+                    r.append((d[0], [i]))
         if j % sample_factor == 0:
             btree_loc_to_id_idx_stats.append(btree_loc_to_id_idx.get_statistics())
 
@@ -103,29 +118,27 @@ def build_index_analysis():
                         sample_factor)
 
 
-def plot_stats_array(stats, name, sample_factor):
-    combined_stats = {}
-    for statname in stats[0].keys():
-        s = []
-        for stat in stats:
-            s.append(stat[statname])
-
-
 def plot_multiple_stats(statlist, name, sample_factor):
     keys = statlist[0][0].keys()
     for key in keys:
         plt.clf()
-        for stats in statlist:
+        lines = []
+        for index in statlist:
             s = []
-            for stat in stats:
+            for stat in index:
                 s.append(stat[key])
-            plt.plot(s)
+            # Plot and save the resulting handles for making the legend
+            lines.append(plt.plot(s, lw=3)[0])
 
         locs, labels = plt.xticks()
         plt.xticks(locs, map(lambda x: x * sample_factor, locs))
+        plt.xlabel("Data Point")
         plt.ylabel(key)
         plt.title(name)
-        plt.tight_layout()
+
+        plt.legend(lines, ["Hash Index", "BTree Index"], loc=4)
+
+        # plt.tight_layout()
         plt.savefig("../Graphs/" + name + "-" + key + ".pdf")
         # plt.show()
 

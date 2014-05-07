@@ -51,9 +51,17 @@ def create_hash_indexes(debug=False):
         for i, t in enumerate(d[1]):
             r = hash_loc_to_id_idx.get(t)
             if len(r) == 0:
-                hash_loc_to_id_idx.insert(t, [(d[0], i)])
+                hash_loc_to_id_idx.insert(t, [(d[0], [i])])
             else:
-                hash_loc_to_id_idx.get_and_write(t).append((d[0], i))
+                # if (d[0], i) not in r:
+                found = False
+                for k in r:
+                    if k[0] == d[0]:
+                        k[1].append(i)
+                        found = True
+                        break
+                if not found:
+                    r.append((d[0], [i]))
 
     if (debug):
         print time.time() - stime
@@ -111,10 +119,17 @@ def create_btree_indexes(debug=False):
         for i, t in enumerate(d[1]):
             r = btree_loc_to_id_idx.get(t)
             if len(r) == 0:
-                btree_loc_to_id_idx.insert(t, [(d[0], i)])
+                btree_loc_to_id_idx.insert(t, [(d[0], [i])])
             else:
                 # if (d[0], i) not in r:
-                r.append((d[0], i))
+                found = False
+                for k in r:
+                    if k[0] == d[0]:
+                        k[1].append(i)
+                        found = True
+                        break
+                if not found:
+                    r.append((d[0], [i]))
 
     if debug:
         print time.time() - stime
