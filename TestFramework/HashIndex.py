@@ -18,12 +18,14 @@ class Bucket:
     def find_key(self, key):
         for i, k in enumerate(self.keys):
             self.key_access_count[i] += 1
+            self.pages[i].reads += 1
             if key == k:
                 return self.pages[i].get()
 
     def find_key_and_write(self, key):
         for i, k in enumerate(self.keys):
             self.key_access_count[i] += 1
+            self.pages[i].reads += 1
             if key == k:
                 self.pages[i].writes += 1
                 return self.pages[i].get()
