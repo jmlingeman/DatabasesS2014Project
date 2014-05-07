@@ -14,10 +14,12 @@ class Page:
         #     return False
         # else:
         self.writes += 1
+        print self.writes
         self.data.append(datum)
         # return True
 
     def get(self):
+        print "GET"
         self.reads += 1
         return self.data
 
@@ -109,3 +111,11 @@ class Disk:
 
         p = self.empty_pages.pop()
         return p
+
+    def reset_stats(self):
+        for block in self.blocks:
+            block.reads = 0
+            block.writes = 0
+            for page in block.pages:
+                page.reads = 0
+                page.writes = 0

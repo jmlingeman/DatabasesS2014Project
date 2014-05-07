@@ -31,8 +31,6 @@ class Bucket:
         # print key, datum, self.keys, self.key_to_page
 
         self.key_to_page[key].append(datum)
-
-
         # TODO Try to add this datum to a page that is in this key
 
 
@@ -68,7 +66,11 @@ class HashIndex(Index):
         """
         bucket_number = self.hash_function(key)
         bucket = self.buckets[bucket_number]
-        return bucket.find_key(key)
+        res = bucket.find_key(key)
+        if res == None:
+            return []
+        else:
+            return res
 
     def find(self, datum):
         """

@@ -25,7 +25,35 @@ def create_hash_indexes(debug=False):
     for d in data:
         hash_index.insert(d[0], d[1])
 
-    print hash_index.print_status()
+    print "Creating location => id hash"
+    stime = time.time()
+    disk_loc_to_id = Disk(n_blocks, n_blocksize, page_size)
+    hash_loc_to_id = HashIndex(disk_loc_to_id, n_buckets)
+    for d in data:
+        for t in d[1]:
+            r = hash_loc_to_id.get(t)
+            if len(r) == 0:
+                hash_loc_to_id.insert(t, [d[0]])
+            else:
+                if d[0] not in r:
+                    r.append(d[0])
+    print time.time() - stime
+
+    print "Creating location => id hash with idx"
+    stime = time.time()
+    disk_loc_to_id_idx = Disk(n_blocks, n_blocksize, page_size)
+    hash_loc_to_id_idx = HashIndex(disk_loc_to_id_idx, n_buckets)
+    for d in data:
+        for i, t in enumerate(d[1]):
+            r = hash_loc_to_id_idx.get(t)
+            if len(r) == 0:
+                hash_loc_to_id_idx.insert(t, [(d[0], i)])
+            else:
+                if d[0] not in r:
+                    r.append((d[0], i))
+    print time.time() - stime
+
+    print hash_loc_to_id_idx.print_status()
 
 
 def create_btree_indexes(debug=False):
