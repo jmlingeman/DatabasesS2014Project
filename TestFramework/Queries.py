@@ -46,9 +46,11 @@ def containsSeq(recs, idx, reads):
     """ Same as contains but without using a fancy index """
     
     result = []
+    i = -1
     
-    for trj, read in idx, reads:
-        read += 1
+    for trj in idx:
+        i += 1
+        reads[i] += 1
         
         if trj[0] in recs:
             result.extend(trj[1])
@@ -79,9 +81,11 @@ def containsDistinctSeq(recs, idx, reads):
     """ Same as containsDistinct but without using a fancy index """
     
     result = []
+    i = -1
     
-    for trj, read in idx, reads:
-        read += 1
+    for trj in idx:
+        i += 1
+        reads[i] += 1
         
         if trj[0] in recs:
             distinct(result, trj[1])
@@ -114,8 +118,11 @@ def containedSeq(vals, idx, reads):
     
     for val in vals:
     
-        for trj, read in idx, reads:
-            read += 1
+        i = -1
+        
+        for trj in idx:
+            i += 1
+            reads[i] += 1
         
             if val in trj[1]:
                 result.append(trj[0])
@@ -148,8 +155,11 @@ def containedDistinctSeq(vals, idx, reads):
     
     for val in vals:
     
-        for trj, read in idx, reads:
-            read += 1
+        i = -1
+        
+        for trj in idx:
+            i += 1
+            reads[i] += 1
         
             if val in trj[1]:
                 distinct(result, [trj[0]])
