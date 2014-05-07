@@ -14,17 +14,19 @@ def create_hash_indexes(debug=False):
     n_blocks = 1
     n_blocksize = 100
     page_size = 100
-    n_buckets = 100
+    n_buckets = 1000
 
     data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
 
     disk = Disk(n_blocks, n_blocksize, page_size)
     hash_index = HashIndex(disk, n_buckets)
 
+    stime = time.time()
     print "Creating id => trajectory hash"
     for d in data:
         hash_index.insert(d[0], d[1])
     if (debug):
+        print time.time() - stime
         print hash_index.get_statistics()
 
     print "Creating location => id hash"
@@ -84,14 +86,18 @@ def create_btree_indexes(debug=False):
 
     # Create a simple BTree of id => trajectory
     # Start with an order 50
+    stime = time.time()
+
     print "Creating id => trajectory btree"
     btree = BPlusTree(150)
     for d in data:
         btree.insert(d[0], d[1])
 
     if debug:
-        print "CLEARING"
-        btree.clear_stats()
+        print time.time() - stime
+
+        # print "CLEARING"
+        # btree.reset_stats()
         print btree.get_statistics()
 
     # Create an index of location => ids
@@ -174,8 +180,8 @@ def create_btree_indexes(debug=False):
 
 
 if __name__ == "__main__":
-    # create_hash_indexes(True)
-    create_btree_indexes(True)
+    create_hash_indexes(True)
+    # create_btree_indexes(True)
 
 
     # print btree.get(1)

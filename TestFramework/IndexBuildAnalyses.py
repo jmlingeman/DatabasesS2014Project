@@ -9,7 +9,7 @@ def build_index_analysis():
     n_blocks = 1
     n_blocksize = 100
     page_size = 100
-    n_buckets = 100
+    n_buckets = 1000
     order = 150
 
     sample_factor = 500
