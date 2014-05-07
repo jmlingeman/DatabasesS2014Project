@@ -11,8 +11,8 @@ __author__ = 'jesse'
 
 def create_hash_indexes(debug=False):
     # Create a new hash index
-    n_blocks = 200
-    n_blocksize = 100000
+    n_blocks = 1
+    n_blocksize = 100
     page_size = 100
     n_buckets = 100
 
@@ -75,7 +75,8 @@ def create_btree_indexes(debug=False):
     for d in data:
         btree.insert(d[0], d[1])
 
-    btree.get_statistics()
+    if debug:
+        print btree.get_statistics()
 
     # Create an index of location => ids
     print "Creating location => id btree"
@@ -92,8 +93,9 @@ def create_btree_indexes(debug=False):
 
     if debug:
         print time.time() - stime
-        print "Loc names:"
-        print names[0], btree_loc_to_id.get(names[0])
+        # print "Loc names:"
+        # print names[0], btree_loc_to_id.get(names[0])
+        print btree_loc_to_id.get_statistics()
 
     print "Creating location => id + idx btree"
     # Will always have unique data points since is UUID, idx of occurrence
@@ -110,7 +112,8 @@ def create_btree_indexes(debug=False):
 
     if debug:
         print time.time() - stime
-        print btree_loc_to_id_idx.get(names[0])
+        # print btree_loc_to_id_idx.get(names[0])
+        print btree_loc_to_id_idx.get_statistics()
 
     # # Same tree but with ngrams
     # # Create an index of location => ids
@@ -148,7 +151,7 @@ def create_btree_indexes(debug=False):
 
 
 if __name__ == "__main__":
-    # create_hash_indexes(True)
+    create_hash_indexes(True)
     create_btree_indexes(True)
 
     # print btree.get(1)

@@ -3,6 +3,8 @@ import itertools
 
 import operator
 
+from Utils import calc_stats
+
 
 """
 Modified pure BTree implementation originally obtained from the GIST available here:
@@ -533,7 +535,32 @@ class BPlusTree(BTree):
         branch_nodes = []
         leaf_nodes = []
 
-        print getattr(self, "children", None)
+        current = self._root
+        ancestry = []
+
+        def recurse(node, accum, depth):
+            accum.append(node)
+            for node in getattr(node, "children", []):
+                recurse(node, accum, depth + 1)
+
+        accum = []
+        recurse(self._root, accum, 0)
+        print len(accum)
+
+        reads = []
+        writes = []
+
+        for node in accum:
+            # print node
+            # print type(node) == _BPlusLeaf
+            if type(node) == _BPlusLeaf:
+                reads.append(node.reads)
+                writes.append(node.writes)
+
+        return calc_stats(reads, writes)
+
+
+        # return "\n".join(accum)
 
         # for node in self:
         #     if type(node) == type(_BNode):
