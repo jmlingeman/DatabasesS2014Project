@@ -1,6 +1,5 @@
 import bisect
 import itertools
-
 import operator
 
 from Utils import calc_stats
@@ -559,16 +558,22 @@ class BPlusTree(BTree):
 
         return calc_stats(reads, writes)
 
+    def clear_stats(self):
+        def recurse(node, accum, depth):
+            accum.append(node)
+            for node in getattr(node, "children", []):
+                recurse(node, accum, depth + 1)
 
-        # return "\n".join(accum)
+        accum = []
+        recurse(self._root, accum, 0)
+        # print len(accum)
 
-        # for node in self:
-        #     if type(node) == type(_BNode):
-        #         branch_nodes.append(node)
-        #     else:
-        #         leaf_nodes.append(node)
-        # print len(branch_nodes), len(leaf_nodes)
-        # print self[0]
+        reads = []
+        writes = []
+
+        for node in accum:
+            node.reads = 0
+            node.writes = 0
 
 
 import random
