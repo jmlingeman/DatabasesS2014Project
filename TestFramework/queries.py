@@ -224,6 +224,7 @@ def occurrencesSeq(vals, trjs, idx):
 
 bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 hash, hashLoc2ID, hashLoc2IDIdx = create_hash_indexes()
+#asdofijosiajdf
 
 # containedVals = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
 # print("contained: count: %i\n\n%s\n" % (len(containedVals), str(containedVals)))
