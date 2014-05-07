@@ -148,7 +148,7 @@ def containedDistinctSeq(vals, idx):
         for trj in idx:
         
             if val in trj[1]:
-                distinct(result, trj[0])
+                distinct(result, [trj[0]])
                 
     return result    
 

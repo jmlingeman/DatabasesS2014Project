@@ -15,26 +15,56 @@ data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_
 bTree, bTreeLoc2ID, bTreeLoc2IDIdx = create_btree_indexes()
 hash, hashLoc2ID, hashLoc2IDIdx = create_hash_indexes()
 
-# containedVals = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
-# print("contained: count: %i\n\n%s\n" % (len(containedVals), str(containedVals)))
+######################################
+# No Index Section
+######################################
 
-# containedValsD = containedDistinct(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
-# print("containedDistinct: count: %i\n\n%s\n" % (len(containedValsD), str(containedValsD)))
+# containsValsS = containsSeq([30, 47], data)
+# print("containsSeq: count: %i\n\n%s\n" % (len(containsValsS), str(containsValsS)))
 
-# containsVals = contains([30, 47], bTree)
-# print("contains: count: %i\n\n%s\n" % (len(containsVals), str(containsVals)))
+# containsValsDS = containsDistinctSeq([30, 47], data) 
+# print("containsDistinctSeq: count: %i\n\n%s\n" % (len(containsValsDS), str(containsValsDS)))
 
-# containsValsD = containsDistinct([30, 47], bTree) 
-# print("containsDistinct: count: %i\n\n%s\n" % (len(containsValsD), str(containsValsD)))
+# containedValsS = containedSeq(["MOOR-6-1", "COOL-101-1"], data)
+# print("containedSeq: count: %i\n\n%s\n" % (len(containedValsS), str(containedValsS)))
 
-# Get the dataset from the dataparser, and its corresponding helpers
-# This is a bit wasteful because it is already read in in CreateIndexes, but whatever. The file isn't too large.
+# containedValsDS = containedDistinctSeq(["MOOR-6-1", "COOL-101-1"], data)
+# print("containedDistinctSeq: count: %i\n\n%s\n" % (len(containedValsDS), str(containedValsDS)))
 
-# ngram = nGram(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
-# print("nGramSeq: count: %i\n\n%s\n" % (len(ngram), str(ngram)))
+#######################################
+# Hash Index Section
+#######################################
 
-containedValsS = containsSeq(["MOOR-6-1", "COOL-101-1"], data)
-print("contained: count: %i\n\n%s\n" % (len(containedValsS), str(containedValsS)))
+# containsValsH = contains([30, 47], hash)
+# print("containsH: count: %i\n\n%s\n" % (len(containsValsH), str(containsValsH)))
 
-containedValsDS = containsDistinctSeq(["MOOR-6-1", "COOL-101-1"], data)
-print("containedDistinct: count: %i\n\n%s\n" % (len(containedValsDS), str(containedValsDS)))
+# containsValsDH = containsDistinct([30, 47], hash) 
+# print("containsDistinctH: count: %i\n\n%s\n" % (len(containsValsDH), str(containsValsDH)))
+
+# containedValsH = contained(["MOOR-6-1", "COOL-101-1"], hashLoc2ID)
+# print("containedH: count: %i\n\n%s\n" % (len(containedValsH), str(containedValsH)))
+
+# containedValsDH = containedDistinct(["MOOR-6-1", "COOL-101-1"], hashLoc2ID)
+# print("containedDistinctH: count: %i\n\n%s\n" % (len(containedValsDH), str(containedValsDH)))
+
+# ngramH = nGram(["CHAD-405-1", "CHAD-405-1"], hash, hashLoc2ID)
+# print("nGramH: count: %i\n\n%s\n" % (len(ngramH), str(ngramH)))
+
+#######################################
+# BTree Index Section
+#######################################
+
+# containsValsB = contains([30, 47], bTree)
+# print("containsB: count: %i\n\n%s\n" % (len(containsValsB), str(containsValsB)))
+
+# containsValsDB = containsDistinct([30, 47], bTree) 
+# print("containsDistinctB: count: %i\n\n%s\n" % (len(containsValsDB), str(containsValsDB)))
+
+# containedValsB = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
+# print("containedB: count: %i\n\n%s\n" % (len(containedValsB), str(containedValsB)))
+
+# containedValsDB = containedDistinct(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
+# print("containedDistinctB: count: %i\n\n%s\n" % (len(containedValsDB), str(containedValsDB)))
+
+# ngramB = nGram(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
+# print("nGramB: count: %i\n\n%s\n" % (len(ngramB), str(ngramB)))
