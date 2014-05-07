@@ -4,7 +4,12 @@ import itertools
 import operator
 
 
-# Comes from pybtree gist online
+"""
+Modified pure BTree implementation originally obtained from the GIST available here:
+https://gist.github.com/teepark/572734
+Has been instrumented and modified for our purposes.
+"""
+
 
 class _BNode(object):
     __slots__ = ["tree", "contents", "children", "writes", "reads"]
