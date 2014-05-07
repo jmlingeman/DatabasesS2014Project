@@ -10,12 +10,12 @@ class Page:
 
     def append(self, datum):
         self.reads += 1
-        if len(self.data) + 1 > self.size:
-            return False
-        else:
-            self.writes += 1
-            self.data.append(datum)
-            return True
+        # if len(self.data) + 1 > self.size:
+        #     return False
+        # else:
+        self.writes += 1
+        self.data.append(datum)
+        # return True
 
     def get(self):
         self.reads += 1
@@ -52,8 +52,9 @@ class Block:
             return False
         else:
             # self.writes += 1
-            self.pages.append(Page(self.page_size))
-            return self.pages[-1]
+            p = Page(self.page_size)
+            self.pages.append(p)
+            return p
 
     def readPage(self, seq):
         pass
@@ -82,6 +83,9 @@ class Disk:
 
             # And now we have a hard drive!
         self.pages_per_block = self.page_size / self.block_size
+        self.empty_pages = []
+        for block in self.blocks:
+            self.empty_pages += block.pages
 
 
     def get_status(self):
@@ -96,8 +100,12 @@ class Disk:
         """
          Get an empty page from the disk, if available
         """
-        for block in self.blocks:
-            for page in block.pages:
-                if page.isempty():
-                    return page
-        return None
+        # print self.empty_pages
+        if len(self.empty_pages) == 0:
+            # If full, create new block
+            b = Block(self.block_size, self.page_size)
+            self.blocks.append(b)
+            self.empty_pages += b.pages
+
+        p = self.empty_pages.pop()
+        return p
