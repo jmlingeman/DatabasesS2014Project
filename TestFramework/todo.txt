@@ -12,3 +12,4 @@ Things we might want to keep track of:
 
 Things we want to do:
     - NGram hash indexes?
+    - Plot how different parameters effect build graphs

@@ -20,15 +20,15 @@ def calc_stats(reads, writes):
     writes_avg = numpy.mean(writes)
 
     stats = {
-        "reads_avg": reads_avg,
-        "writes_avg": writes_avg,
-        "reads_std": reads_std,
-        "writes_std": writes_std,
-        "reads_max": max(reads),
-        "reads_min": min(reads),
-        "writes_max": max(writes),
-        "writes_min": min(writes),
-        "writes_total": sum(writes),
-        "reads_total": sum(reads)
+        "Average Reads": reads_avg,
+        "Average Writes": writes_avg,
+        "STD of Reads": reads_std,
+        "STD of Writes": writes_std,
+        "Maximum Reads": max(reads),
+        "Minimum Reads": min(reads),
+        "Maximum Writes": max(writes),
+        "Minimum Writes": min(writes),
+        "Total Writes": sum(writes),
+        "Total Reads": sum(reads)
     }
     return stats
