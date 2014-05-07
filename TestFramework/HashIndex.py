@@ -28,6 +28,8 @@ class Bucket:
             self.key_to_page[key] = page
             self.pages.append(page)
 
+        # print key, datum, self.keys, self.key_to_page
+
         self.key_to_page[key].append(datum)
 
 
@@ -65,7 +67,7 @@ class HashIndex(Index):
          The get function retrieves the page(s) associated with the requested key
         """
         bucket_number = self.hash_function(key)
-        bucket = self.buckets[key]
+        bucket = self.buckets[bucket_number]
         return bucket.find_key(key)
 
     def find(self, datum):

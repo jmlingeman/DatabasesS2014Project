@@ -11,15 +11,21 @@ __author__ = 'jesse'
 
 def create_hash_indexes(debug=False):
     # Create a new hash index
-    n_blocks = 5
-    n_blocksize = 10
-    page_size = 5
-    n_buckets = 5
+    n_blocks = 200
+    n_blocksize = 1000
+    page_size = 100
+    n_buckets = 100
 
     data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
 
     disk = Disk(n_blocks, n_blocksize, page_size)
     hash_index = HashIndex(disk, n_buckets)
+
+    print "Creating id => trajectory hash"
+    for d in data:
+        hash_index.insert(d[0], d[1])
+
+    print hash_index.print_status()
 
 
 def create_btree_indexes(debug=False):
@@ -111,7 +117,8 @@ def create_btree_indexes(debug=False):
 
 
 if __name__ == "__main__":
-    create_btree_indexes(True)
+    create_hash_indexes(True)
+    # create_btree_indexes(True)
 
     # print btree.get(1)
 
