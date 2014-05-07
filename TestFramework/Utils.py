@@ -27,6 +27,8 @@ def calc_stats(reads, writes):
         "reads_max": max(reads),
         "reads_min": min(reads),
         "writes_max": max(writes),
-        "writes_min": min(writes)
+        "writes_min": min(writes),
+        "writes_total": sum(writes),
+        "reads_total": sum(reads)
     }
     return stats

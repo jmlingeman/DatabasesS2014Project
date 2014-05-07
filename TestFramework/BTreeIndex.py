@@ -545,7 +545,7 @@ class BPlusTree(BTree):
 
         accum = []
         recurse(self._root, accum, 0)
-        print len(accum)
+        # print len(accum)
 
         reads = []
         writes = []
