@@ -42,12 +42,15 @@ def contains(recs, idx):
 
 # End of contains
 
-def containsSeq(recs, idx):
+def containsSeq(recs, idx, reads):
     """ Same as contains but without using a fancy index """
     
     result = []
+    i = -1
     
     for trj in idx:
+        i += 1
+        reads[i] += 1
         
         if trj[0] in recs:
             result.extend(trj[1])
@@ -74,12 +77,15 @@ def containsDistinct(recs, idx):
 # End of containsDistinct
 
 
-def containsDistinctSeq(recs, idx):
+def containsDistinctSeq(recs, idx, reads):
     """ Same as containsDistinct but without using a fancy index """
     
     result = []
+    i = -1
     
     for trj in idx:
+        i += 1
+        reads[i] += 1
         
         if trj[0] in recs:
             distinct(result, trj[1])
@@ -105,14 +111,18 @@ def contained(vals, idx):
 
 # End of contained
 
-def containedSeq(vals, idx):
+def containedSeq(vals, idx, reads):
     """ Same as contained but without using a fancy index """
     
     result = []
     
     for val in vals:
     
+        i = -1
+        
         for trj in idx:
+            i += 1
+            reads[i] += 1
         
             if val in trj[1]:
                 result.append(trj[0])
@@ -138,14 +148,18 @@ def containedDistinct(vals, idx):
 
 # End of containedDistinct
 
-def containedDistinctSeq(vals, idx):
+def containedDistinctSeq(vals, idx, reads):
     """ Same as containedDistinct but without using a fancy index """
     
     result = []
     
     for val in vals:
     
+        i = -1
+        
         for trj in idx:
+            i += 1
+            reads[i] += 1
         
             if val in trj[1]:
                 distinct(result, [trj[0]])
@@ -290,7 +304,8 @@ def occurrencesDistinct(vals, trjs, idx):
     temp = []
     
     if len(trjs) == 0:
-        trjs = [i in range (len(idx))]
+        trjs = []
+        trjs = [trjs.append(i) for i in range (len(idx))]
 
     for trj in trjs:
         distinct(temp, [idx.get(trj)])
