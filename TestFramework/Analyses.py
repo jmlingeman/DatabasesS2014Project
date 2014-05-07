@@ -94,22 +94,22 @@ print("ngramH: count: %i; \nStats: %s\n" % (len(ngramH), str(hashLoc2ID.get_stat
 # Trj ID Index
 ####################################
 
-# bTree.disk.reset_stats()
+bTree.reset_stats()
 containsValsB = contains([30, 47], bTree)
 # print("containsB: count: %i\n\n%s\n" % (len(containsValsB), str(containsValsB)))
 print("containsB: count: %i; \nStats: %s\n" % (len(containsValsB), str(bTree.get_statistics())))
 
-# bTree.disk.reset_stats()
+bTree.reset_stats()
 containsDistinctB = containsDistinct([30, 47], bTree) 
 # print("containsDistinctB: count: %i\n\n%s\n" % (len(containsValsDB), str(containsValsDB)))
 print("containsDistinctB: count: %i; \nStats: %s\n" % (len(containsDistinctB), str(bTree.get_statistics())))
 
-# bTree.disk.reset_stats()
+bTree.reset_stats()
 occurrencesB = occurrences(["CHAD-405-1", "CHAD-405-1"], [5993, 9554, 10182, 13385], bTree)
 # print("occurrencesB: count: %i\n\n%s\n" % (len(occurrencesB), str(occurrencesB)))
 print("ngramB: count: %i; \nStats: %s\n" % (len(occurrencesB), str(bTree.get_statistics())))
 
-# bTree.disk.reset_stats()
+bTree.reset_stats()
 occurrencesDistinctB = occurrencesDistinct(["CHAD-405-1", "CHAD-405-1"], [5993, 9554, 10182, 13385], bTree)
 # print("occurrencesDistinctH: count: %i\n\n%s\n" % (len(occurrencesDistinctB), str(occurrencesDistinctB)))
 print("ngramB: count: %i; \nStats: %s\n" % (len(occurrencesDistinctB), str(bTree.get_statistics())))
@@ -118,17 +118,17 @@ print("ngramB: count: %i; \nStats: %s\n" % (len(occurrencesDistinctB), str(bTree
 # Loc ID Index
 ####################################
 
-# bTreeLoc2ID.disk.reset_stats()
+bTreeLoc2ID.reset_stats()
 containedValsB = contained(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
 # print("containedB: count: %i\n\n%s\n" % (len(containedValsB), str(containedValsB)))
 print("containedValsB: count: %i; \nStats: %s\n" % (len(containedValsB), str(bTreeLoc2ID.get_statistics())))
 
-# bTreeLoc2ID.disk.reset_stats()
+bTreeLoc2ID.reset_stats()
 containedValsDB = containedDistinct(["MOOR-6-1", "COOL-101-1"], bTreeLoc2ID)
 # print("containedDistinctB: count: %i\n\n%s\n" % (len(containedValsDB), str(containedValsDB)))
 print("containedValsDB: count: %i; \nStats: %s\n" % (len(containedValsDB), str(bTreeLoc2ID.get_statistics())))
 
-# bTreeLoc2ID.disk.reset_stats()
+bTreeLoc2ID.reset_stats()
 ngramB = nGram(["CHAD-405-1", "CHAD-405-1"], bTree, bTreeLoc2ID)
 # print("nGramB: count: %i\n\n%s\n" % (len(ngramB), str(ngramB)))
 print("ngramB: count: %i; \nStats: %s\n" % (len(ngramB), str(bTreeLoc2ID.get_statistics())))
