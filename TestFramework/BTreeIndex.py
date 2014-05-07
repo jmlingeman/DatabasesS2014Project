@@ -552,9 +552,9 @@ class BPlusTree(BTree):
         for node in accum:
             # print node
             # print type(node) == _BPlusLeaf
-            if type(node) == _BPlusLeaf:
-                reads.append(node.reads)
-                writes.append(node.writes)
+            # if type(node) == _BPlusLeaf:
+            reads.append(node.reads)
+            writes.append(node.writes)
 
         return calc_stats(reads, writes)
 
