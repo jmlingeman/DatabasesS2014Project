@@ -9,7 +9,7 @@ def build_index_analysis():
     n_blocks = 1
     n_blocksize = 100
     page_size = 100
-    n_buckets = 100
+    n_buckets = 1000
     order = 150
 
     sample_factor = 500
@@ -136,7 +136,7 @@ def plot_multiple_stats(statlist, name, sample_factor):
         plt.ylabel(key)
         plt.title(name)
 
-        plt.legend(lines, ["Hash Index", "BTree Index"], loc=4)
+        plt.legend(lines, ["Hash Index", "BTree Index"], loc=2)
 
         # plt.tight_layout()
         plt.savefig("../Graphs/" + name + "-" + key + ".pdf")
