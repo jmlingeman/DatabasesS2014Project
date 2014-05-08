@@ -5,7 +5,7 @@ __author__ = 'jesse,jennie'
 from DataParser import read_trajectory_data
 from Queries import *
 from CreateIndexes import *
-from numpy import zeros, int
+from numpy import zeros, int, arange
 from Utils import calc_stats
 import matplotlib.pyplot as plt
 
@@ -169,47 +169,50 @@ print("ngramB: count: %i; \nStats: %s\n" % (len(ngramB), str(stats)))
 
 # occurrencesGrouped(["CHAD-405-1"], [], hashLoc2IDIdx)
 
+bWidth = 0.4
+colors = ['b', 'y']
+
 fig = plt.figure(1)
 fig.set_facecolor('white') 
 
 labels = list(containsStats.keys())
-values = [val["reads_total"] for val in containsStats.values()]
+values = [val["Total Reads"] for val in containsStats.values()]
 
 plt.subplot(221)    
 plt.xlabel("Index Type")
 plt.ylabel("Number of Reads")
 plt.title("All Distinct Locations Contained within listed Trajectories" )
-plt.bar(range(len(labels)), values)
-plt.xticks(range(len(labels)), labels)
+plt.bar(range(len(labels)), values, width=bWidth, color = colors)
+plt.xticks(arange(len(labels)) + 0.5 * bWidth, labels)
 
 labels = list(containedStats.keys())
-values = [val["reads_total"] for val in containedStats.values()]
+values = [val["Total Reads"] for val in containedStats.values()]
 
 plt.subplot(222)
 plt.xlabel("Index Type")
 plt.ylabel("Number of Reads")
 plt.title("All Trajectories Containing Listed Locations" )
-plt.bar(range(len(labels)), values)
-plt.xticks(range(len(labels)), labels)
+plt.bar(range(len(labels)), values, width=bWidth, color = colors)
+plt.xticks(arange(len(labels)) + 0.5 * bWidth, labels)
 
 labels = list(occurrensesStats.keys())
-values = [val["reads_total"] for val in occurrensesStats.values()]
+values = [val["Total Reads"] for val in occurrensesStats.values()]
 
 plt.subplot(223)    
 plt.xlabel("Index Type")
 plt.ylabel("Number of Reads")
 plt.title("Occurrences of Locations in Trajectories (Place)" )
-plt.bar(range(len(labels)), values)
-plt.xticks(range(len(labels)), labels)
+plt.bar(range(len(labels)), values, width=bWidth, color = colors)
+plt.xticks(arange(len(labels)) + 0.5 * bWidth, labels)
 
 labels = list(ngramsStats.keys())
-values = [val["reads_total"] for val in ngramsStats.values()]
+values = [val["Total Reads"] for val in ngramsStats.values()]
 
 plt.subplot(224)    
 plt.xlabel("Index Type")
 plt.ylabel("Number of Reads")
 plt.title("All Trajectories Containing Listed nGram" )
-plt.bar(range(len(labels)), values)
-plt.xticks(range(len(labels)), labels)
+plt.bar(range(len(labels)), values, width=bWidth, color = colors)
+plt.xticks(arange(len(labels)) + 0.5 * bWidth, labels)
 
 plt.show()
