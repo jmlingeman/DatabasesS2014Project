@@ -170,10 +170,11 @@ print("ngramB: count: %i; \nStats: %s\n" % (len(ngramB), str(stats)))
 # occurrencesGrouped(["CHAD-405-1"], [], hashLoc2IDIdx)
 
 bWidth = 0.4
-colors = ['b', 'y']
+colors = ['b', 'g']
 
 fig = plt.figure(1)
 fig.set_facecolor('white') 
+fig.set_size_inches(16, 12)
 
 labels = list(containsStats.keys())
 values = [val["Total Reads"] for val in containsStats.values()]
@@ -215,4 +216,5 @@ plt.title("All Trajectories Containing Listed nGram" )
 plt.bar(range(len(labels)), values, width=bWidth, color = colors)
 plt.xticks(arange(len(labels)) + 0.5 * bWidth, labels)
 
-plt.show()
+# plt.show()
+plt.savefig("../Graphs/query_plots.png", dpi=100)

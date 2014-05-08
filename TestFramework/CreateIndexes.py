@@ -9,11 +9,11 @@ from BTreeIndex import BPlusTree
 __author__ = 'jesse'
 
 
-def create_hash_indexes(n_buckets=10000, debug=False):
+def create_hash_indexes(n_buckets=1000, n_blocks=1, n_blocksize=100, page_size=10, debug=False):
     # Create a new hash index
-    n_blocks = 1
-    n_blocksize = 100
-    page_size = 100
+    # n_blocks = 1
+    # n_blocksize = 100
+    # page_size = 100
     # n_buckets = 1000
 
     data, names, id_to_num, num_to_id, pid_to_place, place_to_pid = read_trajectory_data("../../postFSM.txt")
@@ -74,7 +74,6 @@ def create_hash_indexes(n_buckets=10000, debug=False):
 
 
 def create_btree_indexes(order=150, debug=False):
-    # order = 150
 
     # Print its results
     # hash_index.print_status()
@@ -89,7 +88,8 @@ def create_btree_indexes(order=150, debug=False):
     stime = time.time()
 
     print "Creating id => trajectory btree"
-    btree = BPlusTree(150)
+    # btree = BPlusTree(150)
+    btree = BPlusTree(order)
     for d in data:
         btree.insert(d[0], d[1])
 
