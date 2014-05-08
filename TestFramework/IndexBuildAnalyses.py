@@ -195,7 +195,7 @@ def plot_param_comparison_stats(statlist, name, sample_factor, params, type):
         labels = [type + "-" + str(x) for x in params]
         plt.legend(lines, labels, loc=2)
 
-        # plt.tight_layout()
+        plt.tight_layout()
         plt.savefig("../Graphs/" + name + "-" + key + ".png")
         # plt.show()
 
